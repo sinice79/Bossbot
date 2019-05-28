@@ -222,7 +222,7 @@ async def my_background_task():
 			#await client.send_message(client.get_channel(channel), 'now : ' + nowDateString + '   ' + nowTimeString + '  end : ' + endDateString + '   ' + endTimeString, tts=False)
 			if endTimeString == nowTimeString and endDateString == nowDateString:
 				await dbSave()
-				await client.send_message(client.get_channel(channel), '<갑자기 인사해도 놀라지마세요!>', tts=False)
+				await client.send_message(client.get_channel(channel), '<보탐봇 재접속 완료! 접속완료 후 명령어 입력 해주세요!>', tts=False)
 				
 				inidata_restart = repo_restart.get_contents("restart.txt")
 				file_data_restart = base64.b64decode(inidata_restart.content)
@@ -584,7 +584,7 @@ async def on_message(msg):
 		
 		##################################
 
-		if message.content.startswith('!채널확인'):
+		if message.content.startswith('채널확인'):
 			ch_information = ''
 			for i in range(len(channel_name)):
 				ch_information += channel_name[i] + '\n'
@@ -598,7 +598,7 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('!채널이동'):
+		if message.content.startswith('채널이동'):
 			tmp_sayMessage1 = message.content
 			
 			for i in range(len(channel_name)):
@@ -780,9 +780,9 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('!분배'):
+		if message.content.startswith('분배'):
 			separate_money = []
-			separate_money = message.content[4:].split(" ")
+			separate_money = message.content[3:].split(" ")
 			num_sep = int(separate_money[0])
 			cal_tax1 = int(float(separate_money[1])*0.05)
 			real_money = int(int(separate_money[1]) - cal_tax1)
@@ -794,9 +794,9 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('!사다리'):
+		if message.content.startswith('사다리'):
 			ladder = []
-			ladder = message.content[5:].split(" ")
+			ladder = message.content[4:].split(" ")
 			num_cong = int(ladder[0])
 			del(ladder[0])
 			if num_cong < len(ladder):
@@ -806,17 +806,17 @@ async def on_message(msg):
 			else:
 				await client.send_message(client.get_channel(channel), '추첨인원이 총 인원과 같거나 많습니다. 재입력 해주세요', tts=False)
 			
-		if message.content.startswith('!메뉴'):
+		if message.content.startswith('메뉴'):
 			embed = discord.Embed(
 					title = "----- 메뉴 -----",
-					description= '!채널확인\n!채널이동 [채널명]\n!소환\n!불러오기\n!초기화\n!명치\n!미예약\n!분배 [인원] [금액]\n!사다리 [뽑을인원수] [아이디1] [아이디2] ...\n!보스일괄 00:00 또는 !보스일괄 0000\n!ㅂ,ㅃ,q\n\n[보스명]컷\n[보스명]컷 00:00 또는 [보스명]컷 0000\n[보스명]멍\n[보스명]멍 00:00 또는 [보스명]멍 0000\n[보스명]예상 00:00 또는 [보스명]예상 0000\n[보스명]삭제\n보스탐',
+					description= '채널확인 (채팅 채널 확인)\n채널이동 [채널명] (채팅 채널 이동)\n입장 (음성 채널로 봇 이동)\n불러오기(기존에 저장된 보스타임 호출)\n초기화 (보스타임 초기화)\n정신차려 (디코봇 이상할때)\n미예약 (컷시간이 저장안된 보스리스트)\n분배 [인원] [금액]\n사다리 [뽑을인원수] [아이디1] [아이디2] ...\n[보스명]컷 (보스컷시간 자동입력)\n[보스명]컷 00:00 0000 (보스컷시간 수동입력)\n[보스명]멍 (보스멍시간 자동입력)\n섭따컷 (보스일괄 등록)\n[보스명]예상 00:00 0000 (보스예상시간 수동입력)\n[보스명]멍 00:00 0000 (보스멍시간 수동입력)\n[보스명]삭제 (보스컷시간 삭제)\n보스 (입력된 보스시간 확인 및 저장)\n빠른보스 (잔여시간이 빠른보스)',
 					color=0xff00ff
 					)
 			await client.send_message(client.get_channel(channel), embed=embed, tts=False)
 
 		##################################
 
-		if message.content.startswith('!미예약'):
+		if message.content.startswith('미예약'):
 			temp_bossTime2 = []
 			for i in range(bossNum):
 				if bossTimeString[i] == '99:99:99' :
@@ -840,9 +840,9 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('!명치'):
+		if message.content.startswith('정신차려'):
 			await dbSave()
-			await client.send_message(client.get_channel(channel), '<명치 맞고 숨고르는 중... 갑자기 인사해도 놀라지마세요!>', tts=False)
+			await client.send_message(client.get_channel(channel), '<보탐봇 정신차리고 숨 고르기 중! 접속완료 후 명령어 입력 해주세요!>', tts=False)
 
 			inidata_restart = repo_restart.get_contents("restart.txt")
 			file_data_restart = base64.b64decode(inidata_restart.content)
@@ -858,7 +858,7 @@ async def on_message(msg):
 			
 		#############################
 
-		if message.content.startswith('!소환'):
+		if message.content.startswith('입장'):
 			voice_channel = message.author.voice.voice_channel
 			
 			if basicSetting[6] == "":
@@ -908,7 +908,7 @@ async def on_message(msg):
 		
 		##################################
 					
-		if message.content.startswith('!초기화'):
+		if message.content.startswith('초기화'):
 			basicSetting = []
 			bossData = []
 
@@ -934,9 +934,9 @@ async def on_message(msg):
 
 		##################################
 		
-		if message.content.startswith('!보스일괄'):
+		if message.content.startswith('섭따컷'):
 			for i in range(bossNum):
-				tmp_msg = '!보스일괄'
+				tmp_msg = '섭따컷'
 				if len(hello) > len(tmp_msg) + 3 :
 					if hello.find(':') != -1 :
 						chkpos = hello.find(':')
@@ -988,7 +988,7 @@ async def on_message(msg):
 		##################################
 
 
-		if message.content.startswith('!설정확인'):			
+		if message.content.startswith('설정확인'):			
 			setting_val = '보스젠알림시간1 : ' + basicSetting[1] + ' 분 전\n' + '보스젠알림시간2 : ' + basicSetting[3] + ' 분 전\n' + '보스멍확인시간 : ' + basicSetting[2] + ' 분 후\n'
 			embed = discord.Embed(
 					title = "----- 설정내용 -----",
@@ -1002,7 +1002,7 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('!불러오기'):
+		if message.content.startswith('불러오기'):
 			await dbLoad()
 
 			if LoadChk == 0:
@@ -1012,7 +1012,7 @@ async def on_message(msg):
 		
 		##################################
 		
-		if message.content.startswith('!ㅂ') or message.content.startswith('!q') or message.content.startswith('!ㅃ'):
+		if message.content.startswith('빠른보스'):
 			await dbLoad()
 
 			datelist = bossTime
@@ -1047,7 +1047,7 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('보스탐'):
+		if message.content.startswith('보스'):
 			for i in range(bossNum):
 				for j in range(bossNum):
 					if bossTimeString[i] and bossTimeString[j] != '99:99:99':
@@ -1107,7 +1107,7 @@ async def on_message(msg):
 
 		##################################
 
-		if message.content.startswith('!현재시간'):
+		if message.content.startswith('현재시간'):
 			now3 = datetime.datetime.now() + datetime.timedelta(hours = int(basicSetting[0]))
 			await client.send_message(client.get_channel(channel), now3.strftime('%Y-%m-%d') + '   ' + now3.strftime('%H:%M:%S'), tts=False)
 
