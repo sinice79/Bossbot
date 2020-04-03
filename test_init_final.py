@@ -1070,30 +1070,6 @@ while True:
 										)
 								await msg.channel.send(embed=embed, tts=False)
 
-			################ 페이백 특정 채널에서 하기 ################ 
-			if basicSetting[11] != "":
-				if msg.channel.id == int(basicSetting[11]) : #### 정산채널 채널ID 값넣으면 됨
-					message = await msg.channel.fetch_message(msg.id)
-
-					################ 페이백 결과 출력 ################ 
-                                        for command10 in command[10] :
-                                                	if message.content.startswith(command10.strip() + ' '):
-                                                                        separate_money = []
-                                                                        separate_money = message.content[len(command10.strip())+1:].split(" ")
-                                                                        num_sep = floor(int(separate_money[0]))
-                                                                        nepan = (int(separate_money[1])) * ( int(separate_money[0]) / 100 )
-                                                                        cal_tax1 = floor(float(separate_money[1])*0.05)
-                                                                        real_money = floor(floor(float(separate_money[1])*0.95))
-                                                                        if num_sep == 0 :
-                                                                                	await msg.channel.send('```페이백 금액이 0%입니다. 재입력 해주세요.```', tts=False)
-                                                                	else :
-                                                                                	embed = discord.Embed(
-                                                                                                        title = "----- 페이백 계산 ----- \n(수수료 구매자 부담)",
-                                                                                                	description= '```수수료 : ' + str(cal_tax1) + '\n판매완료가격 : ' + str(real_money) + '\n내판가격 : ' + str(int(nepan)) + '\n페이백 금액 : ' + str(int(real_money - nepan)) + '```',
-                                                                                                	color=0xff00ff
-                                                                                                	)
-                                                                                        await msg.channel.send(embed=embed, tts=False)			
-
 			################ 킬 확인 특정 채널에서 하기 ################ 
 			if basicSetting[18] != "":
 				if msg.channel.id == int(basicSetting[18]) : #### 킬 채널ID 값넣으면 됨
@@ -1495,24 +1471,19 @@ while True:
 				await PlaySound(voice_client1, './sound/TJ' + str(resultTJ) +'.mp3')
 
 
-			################ 페이백 결과 출력 ################ 
+			################ 분배 결과 출력 ################ 
 			for command10 in command[10] :
 				if message.content.startswith(command10.strip() + ' '):
 					separate_money = []
 					separate_money = message.content[len(command10.strip())+1:].split(" ")
-					num_sep = floor(int(separate_money[0]))
-					nepan = (int(separate_money[1])) * ( int(separate_money[0]) / 100 )
-					cal_tax1 = floor(float(separate_money[1])*0.05)
-					real_money = floor(floor(float(separate_money[1])*0.95))
+					num_sep = int(separate_money[0])
+					cal_tax1 = math.ceil(float(separate_money[1])*0.05)
+					real_money = int(int(separate_money[1]) - cal_tax1)
+					cal_tax2 = int(real_money/num_sep) - math.ceil(float(int(real_money/num_sep))*0.95)
 					if num_sep == 0 :
-						await client.get_channel(channel).send('```페이백 금액이 0%입니다. 재입력 해주세요.```', tts=False)
+						await client.get_channel(channel).send('```분배 인원이 0입니다. 재입력 해주세요.```', tts=False)
 					else :
-						embed = discord.Embed(
-                                                        title = "----- 페이백 계산 ----- \n(수수료 구매자 부담)",
-							description= '```수수료 : ' + str(cal_tax1) + '\n판매완료가격 : ' + str(real_money) + '\n내판가격 : ' + str(int(nepan)) + '\n페이백 금액 : ' + str(int(real_money - nepan)) + '```',
-							color=0xff00ff
-							)
-						await client.get_channel(channel).send(embed=embed, tts=False)
+						await client.get_channel(channel).send('```1차세금 : ' + str(cal_tax1) + '\n1차 수령액 : ' + str(real_money) + '\n분배자 거래소등록금액 : ' + str(int(real_money/num_sep)) + '\n2차세금 : ' + str(cal_tax2) + '\n인당 실수령액 : ' + str(int(float(int(real_money/num_sep))*0.95)) + '```', tts=False)
 
 			################ 사다리 결과 출력 ################ 
 			for command11 in command[11] :
@@ -1536,7 +1507,7 @@ while True:
 					command_list += ','.join(command[7]) + '\n'     #정신차려
 					command_list += ','.join(command[8]) + '\n'     #재시작
 					command_list += ','.join(command[9]) + '\n'     #미예약
-					command_list += ','.join(command[10]) + ' [퍼센트] [금액]\n'     #페이백
+					command_list += ','.join(command[10]) + ' [인원] [금액]\n'     #분배
 					command_list += ','.join(command[11]) + ' [뽑을인원수] [아이디1] [아이디2]...\n'     #사다리
 					command_list += ','.join(command[12]) + ' [아이디]\n'     #정산
 					command_list += ','.join(command[13]) + ' 또는 ' + ','.join(command[14]) + ' 0000, 00:00\n'     #보스일괄
