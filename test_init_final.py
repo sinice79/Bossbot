@@ -1069,29 +1069,6 @@ while True:
 										color=0xff00ff
 										)
 								await msg.channel.send(embed=embed, tts=False)
-			################ 정산 특정 채널에서 하기 ################ 
-			if basicSetting[11] != "":
-				if msg.channel.id == int(basicSetting[11]) : #### 정산채널 채널ID 값넣으면 됨
-					message = await msg.channel.fetch_message(msg.id)
-
-					################ 페이백 결과 출력 ################ 
-					for command10 in command[10] :
-									if message.content.startswith(command10.strip() + ' '):
-													separate_money = []
-													separate_money = message.content[len(command10.strip())+1:].split(" ")
-													num_sep = int(separate_money[0])
-													nepan = (int(separate_money[1])) * ( int(separate_money[0]) / 100 )
-													cal_tax1 = math.ceil(float(separate_money[1])*0.05)
-													real_money = int(int(separate_money[1])*0.95))
-													if num_sep == 0 :
-																	await msg.channel.send('```페이백 금액이 0%입니다. 재입력 해주세요.```', tts=False)
-													else :
-																	embed = discord.Embed(
-																					title = "----- 페이백 계산 ----- \n(수수료 구매자 부담)",
-																					description= '```수수료 : ' + str(cal_tax1) + '\n판매완료가격 : ' + str(real_money) + '\n내판가격 : ' + str(int(nepan)) + '\n페이백 금액 : ' + str(int(real_money - nepan)) + '```',
-																					color=0xff00ff
-																					)
-																	await msg.channel.send(embed=embed, tts=False)
 
 			################ 킬 확인 특정 채널에서 하기 ################ 
 			if basicSetting[18] != "":
