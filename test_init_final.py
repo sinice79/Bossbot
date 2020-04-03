@@ -1079,10 +1079,10 @@ while True:
 									if message.content.startswith(command10.strip() + ' '):
 													separate_money = []
 													separate_money = message.content[len(command10.strip())+1:].split(" ")
-													num_sep = floor(int(separate_money[0]))
+													num_sep = int(separate_money[0])
 													nepan = (int(separate_money[1])) * ( int(separate_money[0]) / 100 )
-													cal_tax1 = floor(float(separate_money[1])*0.05)
-													real_money = floor(floor(float(separate_money[1])*0.95))
+													cal_tax1 = math.ceil(float(separate_money[1])*0.05)
+													real_money = int(int(separate_money[1])*0.95))
 													if num_sep == 0 :
 																	await msg.channel.send('```페이백 금액이 0%입니다. 재입력 해주세요.```', tts=False)
 													else :
