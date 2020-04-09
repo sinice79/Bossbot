@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 
-################ Server V16.0 #####################
+################ Server V16.1 #####################
 
 import os
 import sys
@@ -72,7 +72,7 @@ FixedBossDateData = []
 indexFixedBossname = []
 
 client = discord.Client()
-client = commands.Bot(command_prefix=commands.when_mentioned_or(""), description='일상디코봇')
+client = commands.Bot(command_prefix=commands.when_mentioned_or(""), description='보탐봇')
 
 access_token = os.environ["BOT_TOKEN"]			
 git_access_token = os.environ["GIT_TOKEN"]			
@@ -133,6 +133,8 @@ def init():
 	global kill_Data
 	global kill_Time
 
+	global tmp_racing_unit
+
 	command = []
 	tmp_bossData = []
 	tmp_fixed_bossData = []
@@ -144,7 +146,7 @@ def init():
 	fb = []
 	fk = []
 	fc = []
-	#print("test")
+	tmp_racing_unit = []
 	
 	inidata = repo.get_contents("test_setting.ini")
 	file_data1 = base64.b64decode(inidata.content)
@@ -347,6 +349,18 @@ def init():
 		if fixed_bossTime[j] < tmp_fixed_now :
 			while fixed_bossTime[j] < tmp_fixed_now :
 				fixed_bossTime[j] = fixed_bossTime[j] + datetime.timedelta(hours=int(fixed_bossData[j][5]), minutes=int(fixed_bossData[j][6]), seconds = int(0))
+
+	################# 이모지 로드 ######################
+
+	emo_inidata = repo.get_contents("emoji.ini")
+	emoji_data1 = base64.b64decode(emo_inidata.content)
+	emoji_data1 = emoji_data1.decode('utf-8')
+	emo_inputData = emoji_data1.split('\n')
+
+	for i in range(len(emo_inputData)):
+		tmp_emo = emo_inputData[i][8:].rstrip('\r')
+		if tmp_emo != "":
+			tmp_racing_unit.append(tmp_emo)
 	
 	################# 리젠보스 시간 정렬 ######################
 	regenData = []
@@ -984,9 +998,9 @@ while True:
 			command_list += ','.join(command[24]) + ' [아이디]\n'     #킬삭제
 			command_list += ','.join(command[18]) + '\n'     #공지
 			command_list += ','.join(command[18]) + ' [공지내용]\n'     #공지
-			command_list += ','.join(command[26]) + '\n'     #공지삭제
+			command_list += ','.join(command[26]) + '\n'     #공지삭제, 공삭
 			command_list += ','.join(command[19]) + ' [할말]\n\n'     #상태
-			command_list += ','.join(command[20]) + '\n'     #보스
+			command_list += ','.join(command[20]) + '\n'     #보스, /보스
 			command_list += ','.join(command[21]) + '\n'     #!보스
 			command_list += '[보스명]컷 또는 [보스명]컷 0000, 00:00\n'     
 			command_list += '[보스명]멍 또는 [보스명]멍 0000, 00:00\n'     
@@ -1011,7 +1025,7 @@ while True:
 	async def setting_(ctx):	
 		#print (ctx.message.channel.id)
 		if ctx.message.channel.id == basicSetting[7]:
-			setting_val = '보탐봇버전 : Server Ver. 16.0 (2020. 4. 7.)\n'
+			setting_val = '보탐봇버전 : Server Ver. 16.1 (2020. 4. 9.)\n'
 			setting_val += '음성채널 : ' + client.get_channel(basicSetting[6]).name + '\n'
 			setting_val += '텍스트채널 : ' + client.get_channel(basicSetting[7]).name +'\n'
 			if basicSetting[8] != "" :
@@ -1355,20 +1369,34 @@ while True:
 			race_val = []
 			random_pos = []
 			racing_result = []
-			output = ':camera: :camera: :camera: 신나는 레이싱! :camera: :camera: :camera:\n'
+			output = ':camera: :camera: :camera: 신나는 마법인형 레이스! :camera: :camera: :camera:\n'
 			#racing_unit = [':giraffe:', ':elephant:', ':tiger2:', ':hippopotamus:', ':crocodile:',':leopard:',':ox:', ':sheep:', ':pig2:',':dromedary_camel:',':dragon:',':rabbit2:'] #동물스킨
-			racing_unit = [':red_car:', ':taxi:', ':bus:', ':trolleybus:', ':race_car:', ':police_car:', ':ambulance:', ':fire_engine:', ':minibus:', ':truck:', ':articulated_lorry:', ':tractor:', ':scooter:', ':manual_wheelchair:', ':motor_scooter:', ':auto_rickshaw:', ':blue_car:', ':bike:', ':helicopter:', ':steam_locomotive:']  #탈것스킨
-			random.shuffle(racing_unit) 
+			#racing_unit = [':red_car:', ':taxi:', ':bus:', ':trolleybus:', ':race_car:', ':police_car:', ':ambulance:', ':fire_engine:', ':minibus:', ':truck:', ':articulated_lorry:', ':tractor:', ':scooter:', ':manual_wheelchair:', ':motor_scooter:', ':auto_rickshaw:', ':blue_car:', ':bike:', ':helicopter:', ':steam_locomotive:']  #탈것스킨
+			#random.shuffle(racing_unit) 
 			racing_member = msg.split(" ")
 
+			racing_unit = []
+
+			emoji = discord.Emoji
+			emoji = ctx.message.guild.emojis
+
+			for j in range(len(tmp_racing_unit)):
+				racing_unit.append(':' + tmp_racing_unit[j] + ':')
+				for i in range(len(emoji)):
+					if emoji[i].name == tmp_racing_unit[j].strip(":"):
+						racing_unit[j] = '<:' + tmp_racing_unit[j] + ':' + str(emoji[i].id) + '>'
+
+			random.shuffle(racing_unit)
+
 			if len(racing_member) == 1:
-				await ctx.send('```레이스 인원이 1명 입니다.```')
+				await ctx.send('레이스 인원이 1명 입니다.')
 				return
 			elif len(racing_member) >= 13:
-				await ctx.send('```레이스 인원이 12명 초과입니다.```')
+				await ctx.send('레이스 인원이 12명 초과입니다.')
 				return
 			else :
 				race_val = random.sample(range(14, 14+len(racing_member)), len(racing_member))
+				random.shuffle(race_val)
 				for i in range(len(racing_member)):
 					fr.append(racing_member[i])
 					fr.append(racing_unit[i])
@@ -1379,18 +1407,17 @@ while True:
 						fr.append(" ")
 					racing_field.append(fr)
 					fr = []
-
+	
 				for i in range(len(racing_member)):
 					racing_field[i][0] = "|"
 					racing_field[i][64] = race_info[i][1]
 					racing_field[i][65] = "| " + race_info[i][0]
 					str_racing_field.append("".join(racing_field[i]))
 					cur_pos.append(64)
-
+				
 				for i in range(len(racing_member)):
 					output +=  str_racing_field[i] + '\n'
-					
-				
+
 				result_race = await ctx.send(output + ':traffic_light: 3초 후 경주가 시작됩니다!')
 				await asyncio.sleep(1)
 				await result_race.edit(content = output + ':traffic_light: 2초 후 경주가 시작됩니다!')
@@ -1406,12 +1433,12 @@ while True:
 					test.append(1)
 					test.sort(reverse=True)
 					random_pos.append(test)
-				
+
 				for j in range(len(random_pos[0])):
 					if j%2 == 0:
-						output =  ':camera: :camera_with_flash: :camera: 신나는 레이싱! :camera_with_flash: :camera: :camera_with_flash:\n'
+						output =  ':camera: :camera_with_flash: :camera: 신나는 마법인형 레이스! :camera_with_flash: :camera: :camera_with_flash:\n'
 					else :
-						output =  ':camera_with_flash: :camera: :camera_with_flash: 신나는 레이싱! :camera: :camera_with_flash: :camera:\n'
+						output =  ':camera_with_flash: :camera: :camera_with_flash: 신나는 마법인형 레이스! :camera: :camera_with_flash: :camera:\n'
 					str_racing_field = []
 					for i in range(len(racing_member)):
 						temp_pos = cur_pos[i]
@@ -1456,9 +1483,7 @@ while True:
 						result[i][1] = ':nine:'
 					elif result[i][1] == 10:
 						result[i][1] = ':keycap_ten:'
-					elif result[i][1] == 11:
-						result[i][1] = ':x:'
-					elif result[i][1] == 12:
+					else:
 						result[i][1] = ':x:'
 					result_str += result[i][1] + "  " + result[i][0] + "  "
 					
@@ -1477,6 +1502,7 @@ while True:
 	# 봇이 새로운 메시지를 수신했을때 동작되는 코드입니다.
 	@client.event
 	async def on_message(msg):
+		await client.wait_until_ready()
 		if msg.author.bot: #만약 메시지를 보낸사람이 봇일 경우에는
 			return None #동작하지 않고 무시합니다.
 
