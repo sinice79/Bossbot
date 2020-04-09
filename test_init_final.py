@@ -975,7 +975,7 @@ while True:
 			command_list += ','.join(command[12]) + ' [아이디]\n'     #정산
 			command_list += ','.join(command[13]) + ' 또는 ' + ','.join(command[14]) + ' 0000, 00:00\n'     #보스일괄
 			command_list += ','.join(command[14]) + '\n'     #빠른보스, !ㅂ, !q, !Q
-			command_list += ','.join(command[15]) + ' [할말]\n'     #!ㅍ, !v, !V
+			command_list += ','.join(command[15]) + ' [할말]\n'     #v, V, !ㅍ, !v, !V
 			command_list += ','.join(command[16]) + '\n'     #리젠
 			command_list += ','.join(command[17]) + '\n'     #현재시간
 			command_list += ','.join(command[22]) + '\n'     #킬초기화
@@ -1228,7 +1228,7 @@ while True:
 							)
 				else :
 					embed = discord.Embed(
-							description= '등록된 공지가 없습니다.',
+							description= '```등록된 공지가 없습니다.```',
 							color=0xff00ff
 							)
 				await ctx.send(embed=embed, tts=False)
@@ -1312,7 +1312,7 @@ while True:
 							)
 				else :
 					embed = discord.Embed(
-							description= '등록된 킬 목록이 없습니다. 분발하세요!',
+							description= '```등록된 킬 목록이 없습니다. 분발하세요!```',
 							color=0xff00ff
 							)
 				await ctx.send(embed=embed, tts=False)
@@ -1362,10 +1362,10 @@ while True:
 			racing_member = msg.split(" ")
 
 			if len(racing_member) == 1:
-				await ctx.send('레이스 인원이 1명 입니다.')
+				await ctx.send('```레이스 인원이 1명 입니다.```')
 				return
 			elif len(racing_member) >= 13:
-				await ctx.send('레이스 인원이 12명 초과입니다.')
+				await ctx.send('```레이스 인원이 12명 초과입니다.```')
 				return
 			else :
 				race_val = random.sample(range(14, 14+len(racing_member)), len(racing_member))
@@ -1533,7 +1533,7 @@ while True:
 		id = msg.author.id #id라는 변수에는 메시지를 보낸사람의 ID를 담습니다.
 		
 		if chflg == 0 :
-			if msg.content == "!소환":
+			if msg.content == "입장":
 				channel = int(msg.channel.id) #channel이라는 변수에는 메시지를 받은 채널의 ID를 담습니다
 				if basicSetting[7] == "":
 					inidata_textCH = repo.get_contents("test_setting.ini")
@@ -2336,7 +2336,7 @@ while True:
 					if message.content.startswith(command15.strip() + ' '):
 						tmp_sayMessage = message.content
 						sayMessage = tmp_sayMessage[len(command15.strip())+1:]
-						await MakeSound(message.author.display_name +'님이.' + sayMessage, './sound/say')
+						await MakeSound(message.author.display_name +'님이, ' + sayMessage, './sound/say')
 						await client.get_channel(channel).send("```< " + msg.author.display_name + " >님이 \"" + sayMessage + "\"```", tts=False)
 						await PlaySound(voice_client1, './sound/say.wav')
 
@@ -2476,3 +2476,4 @@ while True:
 
 	print("Bot restarting")
 	client = discord.Client(loop=client.loop)
+	client = commands.Bot(command_prefix=commands.when_mentioned_or(""), description='보탐봇')
