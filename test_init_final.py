@@ -983,7 +983,7 @@ while True:
 			contents = repo.get_contents("test_setting.ini")
 			repo.update_file(contents.path, "test_setting", result_textCH, contents.sha)
 
-		await ctx.send('< 텍스트채널 [' + ctx.message.channel.name + '] 접속완료 >\n< 음성채널 접속 후 [소환] 명령을 사용 하세요 >', tts=False)
+		await ctx.send('< 텍스트채널 [' + ctx.message.channel.name + '] 접속완료 >\n< 음성채널 접속 후 [입장] 명령을 사용 하세요 >', tts=False)
 		
 		print('< 텍스트채널 [' + client.get_channel(basicSetting[7]).name + '] 접속완료>')
 		if basicSetting[6] != "":
@@ -1034,7 +1034,7 @@ while True:
 			command_list += ','.join(command[19]) + ' [공지내용]\n'     #공지
 			command_list += ','.join(command[20]) + '\n'     #공지삭제, 공삭
 			command_list += ','.join(command[21]) + ' [할말]\n\n'     #상태
-			command_list += ','.join(command[22]) + '\n'     #보스, /보스
+			command_list += ','.join(command[22]) + '\n'     #보스
 			command_list += ','.join(command[23]) + '\n'     #!보스
 			command_list += '[보스명]컷 또는 [보스명]컷 0000, 00:00\n'     
 			command_list += '[보스명]멍 또는 [보스명]멍 0000, 00:00\n'     
@@ -1181,7 +1181,7 @@ while True:
 		else:
 			return
 
-	################ 보탐봇 음성채널 소환 ################ 
+	################ 보탐봇 음성채널 입장 ################ 
 	@client.command(name=command[5][0], aliases=command[5][1:])
 	async def connectVoice_(ctx):
 		global voice_client1
@@ -1444,7 +1444,7 @@ while True:
 			separate_money = []
 			separate_money = msg.split(" ")
 			num_sep = floor(int(separate_money[0]))
-			nepan = (int(separate_money[1])) * ( int(separate_money[0]) / 100 )			
+			nepan = (int(separate_money[1])) * ( int(separate_money[0]) / 100 )
 			cal_tax1 = floor(float(separate_money[1])*0.05)
 			real_money = floor(floor(float(separate_money[1])*0.95))
 			if num_sep == 0 :
