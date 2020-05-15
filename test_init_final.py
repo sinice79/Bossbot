@@ -1107,8 +1107,7 @@ while True:
 			command_list += ','.join(command[23]) + '\n'     #!보스탐, !보스
 			command_list += '[보스명]컷 또는 [보스명]컷 0000, 00:00\n[보스명] 컷 또는 [보스명] 컷 0000, 00:00\n'  
 			command_list += '[보스명]멍 또는 [보스명]멍 0000, 00:00\n[보스명] 멍 또는 [보스명] 멍 0000, 00:00\n'   
-			command_list += '[보스명]예상 또는 [보스명]예상 0000, 00:00\n[보스명] 예상 또는 [보스명] 예상 0000, 00:00\n'     
-			command_list += '[보스명]예상 또는 [보스명]예상 0000, 00:00\n' 
+			command_list += '[보스명]예상 또는 [보스명]예상 0000, 00:00\n[보스명] 예상 또는 [보스명] 예상 0000, 00:00\n' 
 			command_list += '[보스명]삭제 또는 [보스명] 삭제\n'     
 			command_list += '[보스명]메모 [할말] 또는 [보스명] 메모 [할말]\n'
 			embed = discord.Embed(
@@ -2711,7 +2710,7 @@ while True:
 					################ 보스타임 삭제 ################
 						
 					if message.content == bossData[i][0] +'삭제' or message.content.startswith(convertToInitialLetters(bossData[i][0] +'삭제')) or message.content.startswith(bossData[i][0] +' 삭제') or message.content.startswith(convertToInitialLetters(bossData[i][0] +' 삭제')):
-						bossTime[i] = datetime.datetime.now()+datetime.timedelta(days=365, hours = int(basicSetting[0]))
+                                                bossTime[i] = datetime.datetime.now()+datetime.timedelta(days=365, hours = int(basicSetting[0]))
 						tmp_bossTime[i] =  datetime.datetime.now()+datetime.timedelta(days=365, hours = int(basicSetting[0]))
 						bossTimeString[i] = '99:99:99'
 						bossDateString[i] = '9999-99-99'
