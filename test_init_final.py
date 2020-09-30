@@ -3166,7 +3166,6 @@ class IlsangDistributionBot(commands.AutoShardedBot):
 			if basicSetting[21] == "1" and str(basicSetting[6]) in channel_voice_id:
 				await self.get_channel(basicSetting[6]).connect(reconnect=True)
 				print('< 음성채널 [' + self.get_channel(basicSetting[6]).name + '] 접속완료>')
-				await self.get_channel(basicSetting[6]).connect(reconnect=True)
 			elif basicSetting[21] == "1" and str(basicSetting[6]) not in channel_voice_id:
 				print(f"설정된 음성채널 값이 없거나 잘못 됐습니다. 음성채널 접속 후 **[{command[5][0]}]** 명령어 먼저 입력하여 사용해주시기 바랍니다.")
 				await self.get_channel(int(basicSetting[7])).send(f"설정된 음성채널 값이 없거나 잘못 됐습니다. 음성채널 접속 후 **[{command[5][0]}]** 명령어 먼저 입력하여 사용해주시기 바랍니다.")
