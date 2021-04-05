@@ -1743,8 +1743,8 @@ class mainCog(commands.Cog):
 
 			await dbSave()
 
-			await ctx.send('< 초기화 완료 >', tts=False)
-			print ("< 초기화 완료 >")
+			await ctx.send('< 보스 타임 초기화 완료 >', tts=False)
+			print ("< 보스 타임 초기화 완료 >")
 		else:
 			return
 
@@ -2859,8 +2859,8 @@ class mainCog(commands.Cog):
 			if len(racing_member) <= 1:
 				await ctx.send('레이스 인원이 2명보다 작습니다.')
 				return
-			elif len(racing_member) >= 51:
-				await ctx.send('레이스 인원이 50명 초과입니다.')
+			elif len(racing_member) >= 13:
+				await ctx.send('레이스 인원이 12명 초과입니다.')
 				return
 			else :
 				race_val = random.sample(range(tmp_race_tab, tmp_race_tab+len(racing_member)), len(racing_member))
